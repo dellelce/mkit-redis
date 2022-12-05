@@ -19,4 +19,4 @@ jobs:
       - name: Mkit Redis 
         run: docker build -t $IMAGE . && docker push $IMAGE
       - name: Redis check version
-        run: docker run -it --rm $(IMAGE)  /app/redis/bin/redis-cli --version
+        run: docker run -it --rm $IMAGE  /app/redis/bin/redis-cli --version
