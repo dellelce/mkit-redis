@@ -17,6 +17,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Mkit Redis 
-        run: docker build -t $IMAGE . && docker push $IMAGE
+        run: docker build -t $IMAGE .
       - name: Redis check version
-        run: docker run --rm $IMAGE  /app/redis/bin/redis-cli --version
+        run: echo "REDIS_VERSION=$(docker run --rm $IMAGE  /app/redis/bin/redis-cli --version | awk ' { print $2 }' )" >> $GITHUB_ENV
+      - name: Add tag & push
+        run: docker tag $IMAGE:$REDIS_VERSION $IMAGE && docker push $IMAGE && docker push $IMAGE
